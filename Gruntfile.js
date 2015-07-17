@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-travis-matrix');
   grunt.loadNpmTasks('grunt-codeclimate-reporter');
+  grunt.loadTasks('./tasks');
 
   grunt.initConfig({
     clean: {
@@ -80,6 +81,11 @@ module.exports = function(grunt) {
         options: {
           atBegin: true
         }
+      }
+    },
+    only: {
+      test: {
+        src: ['test/**/*.coffee']
       }
     }
   });

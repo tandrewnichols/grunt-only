@@ -1,0 +1,59 @@
+sinon = require 'sinon'
+expect = require('indeed').expect
+fs = require 'fs'
+chalk = require 'chalk'
+
+describe 'only', ->
+  Given -> @only = require '../tasks/only'
+  afterEach -> fs.readFile.restore()
+  Given -> sinon.stub fs, 'readFile'
+  Given -> @grunt =
+    registerMultiTask: sinon.stub()
+    file:
+      expand: sinon.stub()
+    log:
+      writeln: sinon.stub()
+    fail:
+      fatal: sinon.stub()
+  Given -> @context =
+    options: (obj) -> obj
+    async: sinon.stub()
+    files: [
+      src: 'foo/bar.coffee'
+    ]
+  Given -> @done = sinon.stub()
+  Given -> @context.async.returns @done
+  Given -> @grunt.registerMultiTask.withArgs('only', 'Fail builds in which .only was left on a test context', sinon.match.func).callsArgOn(2, @context)
+
+  context 'files specified', ->
+    context 'no onlys', ->
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'foo bar baz'
+      When -> @only @grunt
+      Then -> expect(@done).to.have.been.called
+      And -> expect(@grunt.fail.fatal.called).to.be.false()
+      And -> expect(@grunt.log.writeln.called).to.be.false()
+
+    context '1 only', ->
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'foo\ncontext.only\nbar'
+      Given -> @colon = chalk.cyan(':')
+      When -> @only @grunt
+      Then -> expect(@grunt.fail.fatal).to.have.been.calledWith 'Some tests in your code are disabled'
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith chalk.red('1 instance of only found in your tests.')
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('2') + @colon, ' ', 'context.only'
+
+    context 'more than 1 only', ->
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
+      Given -> @colon = chalk.cyan(':')
+      When -> @only @grunt
+      Then -> expect(@grunt.fail.fatal).to.have.been.calledWith 'Some tests in your code are disabled'
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith chalk.red('3 instances of only found in your tests.')
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('1') + @colon, ' ', 'describe.only'
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('2') + @colon, ' ', 'context.only'
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('3') + @colon, ' ', 'it.only'
+
+  context 'no files specified', ->
+    Given -> @context.files = []
+    Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
+    Given -> @colon = chalk.cyan(':')
+    When -> @only @grunt
+    Then -> expect(@grunt.file.expand).to.have.been.calledWith ['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']
