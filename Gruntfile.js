@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     codeclimate: {
       options: {
         file: 'coverage/coverage.lcov',
-        token: ''
+        token: 'd7abe4f421d4b39b0618b3f8d75d112e7e2d347837ad33e4a94b1be8ab57ccca'
       }
     },
     jshint: {
