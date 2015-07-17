@@ -44,5 +44,12 @@
     "mocha-lcov-reporter": "0.0.2",
     "proxyquire": "^1.6.0",
     "sinon": "^1.15.4"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "grunt-only/tasks"
+      ]
+    }
   }
 }
