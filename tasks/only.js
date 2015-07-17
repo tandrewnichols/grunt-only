@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 
     var options = this.options({
       patterns: ['describe\\.only', 'context\\.only', 'it\\.only'],
-      failOnMatch: true
+      fail: true
     });
 
     var regex = new RegExp(options.patterns.join('|'), 'g');
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
           grunt.log.writeln('  ', chalk.magenta(result.file) + colon + chalk.green(result.line) + colon, ' ', result.match);
         });
         grunt.log.writeln();
-        if (options.failOnMatch) {
+        if (options.fail) {
           grunt.fail.fatal('Some tests in your code are disabled');
         }
       }

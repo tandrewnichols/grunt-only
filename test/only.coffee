@@ -51,6 +51,17 @@ describe 'only', ->
       And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('2') + @colon, ' ', 'context.only'
       And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('3') + @colon, ' ', 'it.only'
 
+    context 'no fail', ->
+      Given -> @context.options = (obj) ->
+        obj.fail = false
+        obj
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'foo\ncontext.only\nbar'
+      Given -> @colon = chalk.cyan(':')
+      When -> @only @grunt
+      Then -> expect(@grunt.fail.fatal.called).to.be.false()
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith chalk.red('1 instance of only found in your tests.')
+      And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('2') + @colon, ' ', 'context.only'
+
   context 'no files specified', ->
     Given -> @context.files = []
     Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
