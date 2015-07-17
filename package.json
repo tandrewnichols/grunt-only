@@ -43,7 +43,6 @@
     "mocha-given": "^0.1.3",
     "mocha-lcov-reporter": "0.0.2",
     "proxyquire": "^1.6.0",
-    "sinon": "^1.15.4",
-    "task-master": "^2.2.1"
+    "sinon": "^1.15.4"
   }
 }
