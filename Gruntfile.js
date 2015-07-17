@@ -12,14 +12,6 @@ module.exports = function(grunt) {
     clean: {
       coverage: 'coverage'
     },
-    codeclimate: {
-      main: {
-        options: {
-          file: 'coverage/coverage.lcov',
-          token: 'd7abe4f421d4b39b0618b3f8d75d112e7e2d347837ad33e4a94b1be8ab57ccca'
-        }
-      }
-    },
     jshint: {
       options: {
         reporter: require('jshint-stylish'),
@@ -73,9 +65,12 @@ module.exports = function(grunt) {
         targets: {
           test: '{{ version }}',
           when: 'v0.12',
-          tasks: ['mochacov:lcov', 'codeclimate']
+          tasks: ['mochacov:lcov', 'matrix:v0.12']
         }
       }
+    },
+    matrix: {
+      'v0.12': 'codeclimate-test-reporter < coverage/coverage.lcov'
     },
     watch: {
       tests: {
