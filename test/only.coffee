@@ -68,3 +68,6 @@ describe 'only', ->
     Given -> @colon = chalk.cyan(':')
     When -> @only @grunt
     Then -> expect(@grunt.file.expand).to.have.been.calledWith ['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']
+
+  context 'exports its patterns', ->
+    Then -> expect(@only.patterns).to.deep.equal ['describe\\.only', 'context\\.only', 'it\\.only', 'Then\\.only', 'iit', 'ddescribe', 'fdescribe']

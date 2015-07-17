@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     var done = this.async();
 
     var options = this.options({
-      patterns: ['describe\\.only', 'context\\.only', 'it\\.only'],
+      patterns: module.exports.patterns,
       fail: true
     });
 
@@ -57,3 +57,5 @@ module.exports = function(grunt) {
     });
   });
 };
+
+module.exports.patterns = ['describe\\.only', 'context\\.only', 'it\\.only', 'Then\\.only', 'iit', 'ddescribe', 'fdescribe'];
