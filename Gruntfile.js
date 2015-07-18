@@ -5,7 +5,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-travis-matrix');
-  grunt.loadNpmTasks('grunt-codeclimate-reporter');
   grunt.loadTasks('./tasks');
 
   grunt.initConfig({

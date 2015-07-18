@@ -52,6 +52,9 @@ module.exports = function(grunt) {
         if (options.fail) {
           grunt.fail.fatal('Some tests in your code are disabled');
         }
+      } else {
+        var fileLength = 'file' + (files.length > 1 ? 's' : '');
+        grunt.log.ok(files.length + ' ' + fileLength + ' ' + chalk.cyan('.only') + ' free');
       }
       done();
     });

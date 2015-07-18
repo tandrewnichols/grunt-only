@@ -13,6 +13,7 @@ describe 'only', ->
       expand: sinon.stub()
     log:
       writeln: sinon.stub()
+      ok: sinon.stub()
     fail:
       fatal: sinon.stub()
   Given -> @context =
@@ -32,6 +33,7 @@ describe 'only', ->
       Then -> expect(@done).to.have.been.called
       And -> expect(@grunt.fail.fatal.called).to.be.false()
       And -> expect(@grunt.log.writeln.called).to.be.false()
+      And -> expect(@grunt.log.ok).to.have.been.calledWith "1 file #{chalk.cyan('.only')} free"
 
     context '1 only', ->
       Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'foo\ncontext.only\nbar'
@@ -66,6 +68,7 @@ describe 'only', ->
     Given -> @context.files = []
     Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
     Given -> @colon = chalk.cyan(':')
+    Given -> @grunt.file.expand.returns ['hello/world.js']
     When -> @only @grunt
     Then -> expect(@grunt.file.expand).to.have.been.calledWith ['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']
 
