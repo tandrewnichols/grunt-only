@@ -16,7 +16,8 @@
     "mocha",
     "exclude",
     "exclusive",
-    "only"
+    "only",
+    "gruntplugin"
   ],
   "author": {
     "name": "Andrew Nichols",

@@ -63,13 +63,13 @@ module.exports = function(grunt) {
       options: {
         targets: {
           test: '{{ version }}',
-          when: 'v0.12',
-          tasks: ['mochacov:lcov', 'matrix:v0.12']
+          when: 'v4',
+          tasks: ['mochacov:lcov', 'matrix:v4']
         }
       }
     },
     matrix: {
-      'v0.12': 'codeclimate-test-reporter < coverage/coverage.lcov'
+      v4: 'codeclimate-test-reporter < coverage/coverage.lcov'
     },
     watch: {
       tests: {
@@ -89,6 +89,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('mocha', ['mochaTest:test']);
   grunt.registerTask('default', ['jshint:all', 'mocha']);
-  grunt.registerTask('coverage', ['mochacov:html']);
+  grunt.registerTask('cover', ['clean', 'mochacov:html']);
   grunt.registerTask('ci', ['jshint:all', 'mocha', 'travis']);
 };
