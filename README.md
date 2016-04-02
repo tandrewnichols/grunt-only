@@ -59,6 +59,21 @@ grunt.initConfig({
 });
 ```
 
+If you are updating src files on the fly, i.e. when using this task in combination with something like grunt-newer or as part of a git hook, you can tell grunt-only not to use the default files (typically, it uses some sane defaults when it is run with no files). Just add the `dynamic` option.
+
+```javascript
+grunt.initConfig({
+  only: {
+    tests: {
+      options: {
+        dynamic: true
+      },
+      src: [] // Or omit this altogether
+    }
+  }
+});
+```
+
 Note that the list of patterns is somewhat long and the "search" is performed via regex with a series of ors, which might not be performant in large code bases. In such cases, you may want to include your own list of patterns, even if they are in the default list, so that you're not wasting resources looking for patterns you don't use.
 
 Additionally, this library exposes it's pattern list, so if you just want to add to the existing list, you can do so:
