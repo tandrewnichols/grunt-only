@@ -65,12 +65,21 @@ describe 'only', ->
       And -> expect(@grunt.log.writeln).to.have.been.calledWith '  ', chalk.magenta('foo/bar.coffee') + @colon + chalk.green('2') + @colon, ' ', 'context.only'
 
   context 'no files specified', ->
-    Given -> @context.files = []
-    Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
-    Given -> @colon = chalk.cyan(':')
-    Given -> @grunt.file.expand.returns ['hello/world.js']
-    When -> @only @grunt
-    Then -> expect(@grunt.file.expand).to.have.been.calledWith ['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']
+    context 'without dynamic set', ->
+      Given -> @context.files = []
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
+      Given -> @colon = chalk.cyan(':')
+      Given -> @grunt.file.expand.returns ['hello/world.js']
+      When -> @only @grunt
+      Then -> expect(@grunt.file.expand).to.have.been.calledWith ['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']
+
+    context 'with dynamic set', ->
+      Given -> @context.files = []
+      Given -> fs.readFile.withArgs('foo/bar.coffee', { encoding: 'utf8' }, sinon.match.func).callsArgWith 2, null, 'describe.only\ncontext.only\nit.only'
+      Given -> @colon = chalk.cyan(':')
+      Given -> @grunt.file.expand.returns ['hello/world.js']
+      When -> @only @grunt
+      Then -> expect(@grunt.file.expand).not.to.have.been.called
 
   context 'exports its patterns', ->
     Then -> expect(@only.patterns).to.deep.equal ['describe\\.only', 'context\\.only', 'it\\.only', 'Then\\.only', 'iit', 'ddescribe', 'fdescribe']

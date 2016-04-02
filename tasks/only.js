@@ -9,7 +9,8 @@ module.exports = function(grunt) {
 
     var options = this.options({
       patterns: module.exports.patterns,
-      fail: true
+      fail: true,
+      dynamic: false
     });
 
     var regex = new RegExp(options.patterns.join('|'), 'g');
@@ -18,7 +19,7 @@ module.exports = function(grunt) {
       return memo.concat(file.src); 
     }, []);
 
-    if (!files.length) {
+    if (!files.length && !options.dynamic) {
       files = grunt.file.expand(['test/**/*.{js,coffee}', 'spec/**/*.{js,coffee}']);
     }
 
