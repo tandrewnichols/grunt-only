@@ -97,6 +97,6 @@ module.exports = function(grunt) {
 
   // For manually testing that dynamic src assignment works
   grunt.registerTask('dynamic', function() {
-    grunt.config.set('only.test.src', ['test/foo.coffee']);
+    grunt.config.set('only.test.src', []);
   });
 };
