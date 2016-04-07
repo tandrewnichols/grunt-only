@@ -1,6 +1,6 @@
 {
   "name": "grunt-only",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fail builds in which .only was left on a test context",
   "main": "tasks/grunt-only.js",
   "scripts": {
