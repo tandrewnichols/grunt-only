@@ -82,7 +82,10 @@ module.exports = function(grunt) {
     },
     only: {
       test: {
-        src: ['test/**/*.coffee']
+        options: {
+          dynamic: true
+        },
+        src: []
       }
     }
   });
@@ -91,4 +94,9 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['jshint:all', 'mocha']);
   grunt.registerTask('cover', ['clean', 'mochacov:html']);
   grunt.registerTask('ci', ['jshint:all', 'mocha', 'travis']);
+
+  // For manually testing that dynamic src assignment works
+  grunt.registerTask('dynamic', function() {
+    grunt.config.set('only.test.src', []);
+  });
 };
