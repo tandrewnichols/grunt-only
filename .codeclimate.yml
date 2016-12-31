@@ -1,0 +1,21 @@
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+    config:
+      config: '.eslint.json'
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - javascript
+ratings:
+   paths:
+    - "tasks/**.js"
+exclude_paths:
+  - "test/**"
+  - "**.json"
+  - "**.md"
+  - "*.js"
+  - "**.coffee"
+  - "LICENSE"
