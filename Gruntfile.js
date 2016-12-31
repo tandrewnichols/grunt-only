@@ -48,7 +48,7 @@ module.exports = function(grunt) {
       }
     },
     eslint: {
-      lib: {
+      tasks: {
         options: {
           configFile: '.eslint.json',
           format: 'node_modules/eslint-codeframe-formatter'
@@ -87,9 +87,9 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('mocha', ['mochaTest:test']);
-  grunt.registerTask('default', ['eslint:lib', 'mocha']);
+  grunt.registerTask('default', ['eslint:tasks', 'mocha']);
   grunt.registerTask('cover', ['clean', 'istanbul:unit', 'open:coverage']);
-  grunt.registerTask('ci', ['eslint:lib', 'mocha', 'travisMatrix']);
+  grunt.registerTask('ci', ['eslint:tasks', 'mocha', 'travisMatrix']);
 
   // For manually testing that dynamic src assignment works
   grunt.registerTask('dynamic', function() {
